@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
 
     // send mail
     const responseMail = await sendMail({
-      email,
+      email: savedUser?.email,
       emailType: "verify",
       userId: savedUser?._id,
     });

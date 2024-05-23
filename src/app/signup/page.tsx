@@ -19,6 +19,10 @@ const SignUp = () => {
       e.preventDefault();
       setLoading(true);
       const response = await axios.post("/api/users/signup", user);
+      if (response?.data?.error === true) {
+        setLoading(false);
+        toast.error(response?.data?.message);
+      }
       toast.success(response?.data?.message);
       setLoading(false);
       router.push("/verifyemail");
@@ -42,7 +46,7 @@ const SignUp = () => {
   }, [user]);
   return (
     <div className="absolute inset-0 h-full w-full bg-[#f1f1f1] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] flex justify-center items-center">
-      <Toaster/>
+      <Toaster />
       <form
         onSubmit={signUp}
         className=" w-[500px] shadow-md p-4 rounded-md shadow-gray-500 flex flex-col gap-5"
@@ -58,7 +62,7 @@ const SignUp = () => {
             <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
           </svg>
           <input
-            type="text"
+            type="email"
             className="grow py-2 px-3 rounded-sm border-none outline-none ring-1"
             placeholder="Email"
             value={user?.email}

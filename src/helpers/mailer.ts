@@ -20,6 +20,8 @@ export const sendMail = async ({ email, emailType, userId }: any) => {
         },
       });
     }
+
+    // MAIL TRAP USE THIS SECTION
     const transporter = nodemailer.createTransport({
       host: "sandbox.smtp.mailtrap.io",
       port: 2525,
@@ -28,9 +30,18 @@ export const sendMail = async ({ email, emailType, userId }: any) => {
         pass: process.env.MAIL_PASS,
       },
     });
+    // MAIL TRAP USE THIS SECTION
+    const transporterMailer = nodemailer.createTransport({
+      service: "gmail",
+
+      auth: {
+        user: process.env.NODEMAIL_USER,
+        pass: process.env.NODEMAIL_PASS,
+      },
+    });
 
     const mainOptions = {
-      from: "dev.sazzadhosssain24@gmail.com", // sender address
+      from: `📩Ecommerce Orebi : <${process.env.NODE_USER}>`, // sender address
       to: email, //  receivers
       subject:
         emailType === "verify" ? "Verity Your Email" : "Reset Your Password", // Subject
@@ -60,7 +71,8 @@ export const sendMail = async ({ email, emailType, userId }: any) => {
       </p>`, // html body
     };
 
-    const response = await transporter.sendMail(mainOptions);
+    const response = await transporterMailer.sendMail(mainOptions);
+    console.log(response);
     return response;
   } catch (error: any) {
     console.log(error?.message);

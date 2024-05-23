@@ -18,7 +18,10 @@ const SignIn = () => {
       e.preventDefault();
       setLoading(true);
       const response = await axios.post("/api/users/login", user);
-      console.log(response?.data);
+      if (response?.data?.error === true) {
+        setLoading(false);
+        return toast.error(response?.data?.message);
+      }
       toast.success(response?.data?.message);
       localStorage.setItem("token", JSON.stringify(response?.data?.token));
       setLoading(false);
